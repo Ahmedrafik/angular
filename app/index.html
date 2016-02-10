@@ -1,0 +1,69 @@
+<!DOCTYPE>
+<html ng-app="articleApp">
+	<head>
+		<meta charset="utf-8">
+		<script type="text/javascript" src="bower_components/angular/angular.js"></script>
+		<script type="text/javascript" src="bower_components/angular-i18n/angular-locale_fr-fr.js
+"></script>
+		<script type="text/javascript" src="js/app.js"></script>
+		<link rel="stylesheet" type="text/css" href="css/app.css">
+		<title>angular-index</title>
+
+
+
+	</head>
+	<body>
+
+		<div ng-controller= "TableControler as tableList">
+			<form ng-submit="tableList.addArticle()">
+				<input type="text" ng-model="tableList.addobject.ref" placeholder="Référence de l'article">
+				<input type="text" ng-model="tableList.addobject.lib" placeholder="Libellé de l'article">
+				<input type="number" ng-model="tableList.addobject.prix" placeholder="Prix de l'article">
+				<input type="number" ng-model="tableList.addobject.quantite" placeholder="Quantité de l'article">
+				<input class="btn-primary" type="submit" value="Ajouter">
+			</form>
+
+			<form ng-submit="tableList.deleteArticle()">
+				<select ng-model="tableList.deleteobject" ng-options="a.ref for a in tableList.articles">
+					<option value="">-- chose an article --</option>
+				</select>
+				<input class="btn-primary" type="submit" value="Supprimer">
+			</form>
+
+			<table>
+				<tr>
+					<td>Référence</td>
+					<td>Libellé</td>
+					<td>Prix unitaire HT</td>
+					<td>Quantité commandée</td>
+					<td>Prix TTC</td>
+					<td>Prix Total</td>
+				</tr>
+
+				<tr ng-repeat="article in tableList.articles" ng-class="{articleBold: article.prix >1000}">
+					<td>{{article.ref}}</td>
+					<td>{{article.lib}}</td>
+					<td>{{article.prix | currency}}</td>
+					<td><input type="number" ng-model="article.quantite"></td>
+					<td>{{tableList.prixTTC(article)  | currency}}</td>
+					<td>{{tableList.totaux(article)  | currency}}</td>
+				</tr>
+
+				<tr>
+					<td>Total</td>
+					<td>{{tableList.totalcommande()  | currency}}</td>
+				</tr>
+			</table>
+
+			<form ng-submit="tableList.addCatalogue()">
+				<select ng-model="tableList.add.selected" 
+						ng-options="item.title for item in tableList.catalogue"></select>
+				<input type="number" ng-model="tableList.addobject.quantite" placeholder="Quantité de l'article">
+				<input class="btn-primary" type="submit" value="Ajouter">
+			</form>
+
+		<!--	{{tableList.catalogue}} -->
+		</div>
+	</body>
+
+</html>
